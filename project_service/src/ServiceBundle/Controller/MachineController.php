@@ -46,6 +46,8 @@ class MachineController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $time = new \DateTime("now");
+            $machine->setInsertionDate($time);
             $em->persist($machine);
             $em->flush($machine);
 

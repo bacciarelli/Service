@@ -13,7 +13,7 @@ class MachineType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('complaintNumber')->add('insertionDate')->add('complaintDescription')->add('repairDescription')->add('repairDate')->add('machineDescription')        ;
+        $builder->add('complaintNumber')->add('complaintDescription')->add('repairDescription')->add('repairDate')->add('machineDescription')        ;
     }
     
     /**
