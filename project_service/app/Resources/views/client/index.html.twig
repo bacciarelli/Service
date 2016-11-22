@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h1>Clients list</h1>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                        <tr>
+                            <td><a href="{{ path('client_show', { 'id': client.id }) }}">{{ client.id }}</a></td>
+                            <td>{{ client.name }}</td>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('client_show', { 'id': client.id }) }}">show</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('client_edit', { 'id': client.id }) }}">edit</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <ul>
+            <li>
+                <a href="{{ path('client_new') }}">Create a new client</a>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}

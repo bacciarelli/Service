@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Machine</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ machine.id }}</td>
+            </tr>
+            <tr>
+                <th>Complaintnumber</th>
+                <td>{{ machine.complaintNumber }}</td>
+            </tr>
+            <tr>
+                <th>Insertiondate</th>
+                <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Complaintdescription</th>
+                <td>{{ machine.complaintDescription }}</td>
+            </tr>
+            <tr>
+                <th>Repairdescription</th>
+                <td>{{ machine.repairDescription }}</td>
+            </tr>
+            <tr>
+                <th>Repairdate</th>
+                <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Machinedescription</th>
+                <td>{{ machine.machineDescription }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('machine_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('machine_edit', { 'id': machine.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
