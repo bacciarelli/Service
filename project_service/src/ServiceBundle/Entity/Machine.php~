@@ -3,11 +3,12 @@
 namespace ServiceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+
 use ServiceBundle\Entity\Brand;
 use ServiceBundle\Entity\Client;
 use ServiceBundle\Entity\Repair_status;
 use ServiceBundle\Entity\Type;
+use ServiceBundle\Entity\ModelMachine;
 
 
 /**
@@ -20,32 +21,31 @@ class Machine
 {
     
     /**
-     * @ORM\OneToMany(targetEntity="Brand", mappedBy="machine")
+     * @ORM\ManyToOne(targetEntity="Brand", inversedBy="machines")
      */
-    private $brands;
+    private $brand;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="ModelMachine", inversedBy="machines")
+     */
+    private $modelMachine;
         
     /**
-     * @ORM\OneToMany(targetEntity="Client", mappedBy="machine")
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="machines")
      */
-    private $clients;
+    private $client;
     
     /**
-     * @ORM\OneToMany(targetEntity="Type", mappedBy="machine")
+     * @ORM\ManyToOne(targetEntity="Type", inversedBy="machines")
      */
-    private $types;
+    private $type;
     
     /**
-     * @ORM\OneToMany(targetEntity="Repair_status", mappedBy="machine")
+     * @ORM\ManyToOne(targetEntity="Repair_status", inversedBy="machines")
      */
-    private $repairStatuses;
+    private $repairStatus;
     
-    public function __construct() {
-        $this->brands = new ArrayCollection();
-        $this->clients = new ArrayCollection();
-        $this->repairStatuses = new ArrayCollection();
-        $this->types = new ArrayCollection();
-    }
+    
     
     /**
      * @var int
@@ -246,4 +246,98 @@ class Machine
     {
         return $this->machineDescription;
     }
+
+
+    /**
+     * Set brand
+     *
+     * @param \ServiceBundle\Entity\Brand $brand
+     * @return Machine
+     */
+    public function setBrand(\ServiceBundle\Entity\Brand $brand = null)
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * Get brand
+     *
+     * @return \ServiceBundle\Entity\Brand 
+     */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \ServiceBundle\Entity\Client $client
+     * @return Machine
+     */
+    public function setClient(\ServiceBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \ServiceBundle\Entity\Client 
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \ServiceBundle\Entity\Type $type
+     * @return Machine
+     */
+    public function setType(\ServiceBundle\Entity\Type $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \ServiceBundle\Entity\Type 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set repairStatus
+     *
+     * @param \ServiceBundle\Entity\Repair_status $repairStatus
+     * @return Machine
+     */
+    public function setRepairStatus(\ServiceBundle\Entity\Repair_status $repairStatus = null)
+    {
+        $this->repairStatus = $repairStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get repairStatus
+     *
+     * @return \ServiceBundle\Entity\Repair_status 
+     */
+    public function getRepairStatus()
+    {
+        return $this->repairStatus;
+    }
+
 }

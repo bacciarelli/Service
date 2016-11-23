@@ -4,6 +4,7 @@ namespace ServiceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ServiceBundle\Entity\Machine;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Client
@@ -11,14 +12,17 @@ use ServiceBundle\Entity\Machine;
  * @ORM\Table(name="client")
  * @ORM\Entity(repositoryClass="ServiceBundle\Repository\ClientRepository")
  */
-class Client
-{
+class Client {
+
+    public function __construct() {
+        $this->features = new ArrayCollection();
+    }
     
     /**
-     * @ORM\ManyToOne(targetEntity="Machine", inversedBy="clients")
+     * @ORM\OneToMany(targetEntity="Machine", mappedBy="client")
      */
-    private $machine;
-    
+    private $machines;
+
     /**
      * @var int
      *
@@ -35,14 +39,12 @@ class Client
      */
     private $name;
 
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -52,8 +54,7 @@ class Client
      * @param string $name
      * @return Client
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -64,8 +65,9 @@ class Client
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
+
+    
 }

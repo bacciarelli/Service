@@ -4,6 +4,7 @@ namespace ServiceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ServiceBundle\Entity\Machine;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Repair_status
@@ -15,9 +16,13 @@ class Repair_status
 {
     
     /**
-     * @ORM\ManyToOne(targetEntity="Machine", inversedBy="repair_statuses")
+     * @ORM\OneToMany(targetEntity="Machine", mappedBy="repair_status")
      */
-    private $machine;
+    private $machines;
+    
+    public function __construct() {
+        $this->features = new ArrayCollection();
+    }
     
     /**
      * @var int
@@ -68,4 +73,6 @@ class Repair_status
     {
         return $this->name;
     }
+
+    
 }

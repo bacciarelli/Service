@@ -1,51 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="col-lg-10">
-        <h1>Machines list</h1>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-                <thead>
+<div class="col-lg-10">
+    <h1>Machines list</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Complaintnumber</th>
+                    <th>Machinedescription</th>
+                    <th>Complaintdescription</th>
+                    <th>Repairdescription</th>
+                    <th>Insertiondate</th>
+                    <th>Repairdate</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for machine in machines %}
                     <tr>
-                        <th>Id</th>
-                        <th>Complaintnumber</th>
-                        <th>Insertiondate</th>
-                        <th>Complaintdescription</th>
-                        <th>Repairdescription</th>
-                        <th>Repairdate</th>
-                        <th>Machinedescription</th>
-                        <th>Actions</th>
+                        <td>{{ machine.complaintNumber }}</td>
+                        <td>{{ machine.machineDescription }}</td>
+                        <td>{{ machine.complaintDescription }}</td>
+                        <td>{{ machine.repairDescription }}</td>
+                        <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('machine_show', { 'id': machine.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('machine_edit', { 'id': machine.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for machine in machines %}
-                        <tr>
-                            <td><a href="{{ path('machine_show', { 'id': machine.id }) }}">{{ machine.id }}</a></td>
-                            <td>{{ machine.complaintNumber }}</td>
-                            <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                            <td>{{ machine.complaintDescription }}</td>
-                            <td>{{ machine.repairDescription }}</td>
-                            <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                            <td>{{ machine.machineDescription }}</td>
-                            <td>
-                                <ul>
-                                    <li>
-                                        <a href="{{ path('machine_show', { 'id': machine.id }) }}">show</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('machine_edit', { 'id': machine.id }) }}">edit</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <ul>
-            <li>
-                <a href="{{ path('machine_new') }}">Create a new machine</a>
-            </li>
-        </ul>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+    <ul>
+        <li>
+            <a href="{{ path('machine_new') }}">Create a new machine</a>
+        </li>
+    </ul>
+</div>
 {% endblock %}

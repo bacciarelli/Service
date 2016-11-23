@@ -1,41 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="col-lg-6">
-        <h1>Repair_statuses list</h1>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-                <thead>
+<div class="col-lg-10">
+    <h1>Repair_statuses list</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for repair_status in repair_statuses %}
                     <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Actions</th>
+                        <td><a href="{{ path('repair_status_show', { 'id': repair_status.id }) }}">{{ repair_status.id }}</a></td>
+                        <td>{{ repair_status.name }}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('repair_status_show', { 'id': repair_status.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('repair_status_edit', { 'id': repair_status.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for repair_status in repair_statuses %}
-                        <tr>
-                            <td><a href="{{ path('repair_status_show', { 'id': repair_status.id }) }}">{{ repair_status.id }}</a></td>
-                            <td>{{ repair_status.name }}</td>
-                            <td>
-                                <ul>
-                                    <li>
-                                        <a href="{{ path('repair_status_show', { 'id': repair_status.id }) }}">show</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('repair_status_edit', { 'id': repair_status.id }) }}">edit</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <ul>
-            <li>
-                <a href="{{ path('repair_status_new') }}">Create a new repair_status</a>
-            </li>
-        </ul>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+    <ul>
+        <li>
+            <a href="{{ path('repair_status_new') }}">Create a new repair_status</a>
+        </li>
+    </ul>
+</div>
 {% endblock %}

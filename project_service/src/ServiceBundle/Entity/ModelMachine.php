@@ -7,26 +7,27 @@ use ServiceBundle\Entity\Machine;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Repair_status
+ * ModelMachine
  *
- * @ORM\Table(name="repair_status")
- * @ORM\Entity(repositoryClass="ServiceBundle\Repository\Repair_statusRepository")
+ * @ORM\Table(name="model_machine")
+ * @ORM\Entity(repositoryClass="ServiceBundle\Repository\ModelMachineRepository")
  */
-class Repair_status {
-
+class ModelMachine
+{
+    
     public function __toString() {
         return $this->name;
     }
-
-    /**
-     * @ORM\OneToMany(targetEntity="Machine", mappedBy="repair_status")
-     */
-    private $machines;
 
     public function __construct() {
         $this->machines = new ArrayCollection();
     }
 
+    /**
+     * @ORM\OneToMany(targetEntity="Machine", mappedBy="modelMachine")
+     */
+    private $machines;
+    
     /**
      * @var int
      *
@@ -39,16 +40,18 @@ class Repair_status {
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=60, unique=true)
+     * @ORM\Column(name="name", type="string", length=100, unique=true)
      */
     private $name;
+
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -56,9 +59,10 @@ class Repair_status {
      * Set name
      *
      * @param string $name
-     * @return Repair_status
+     * @return ModelMachine
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -69,7 +73,8 @@ class Repair_status {
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -77,9 +82,10 @@ class Repair_status {
      * Add machines
      *
      * @param \ServiceBundle\Entity\Machine $machines
-     * @return Repair_status
+     * @return ModelMachine
      */
-    public function addMachine(\ServiceBundle\Entity\Machine $machines) {
+    public function addMachine(\ServiceBundle\Entity\Machine $machines)
+    {
         $this->machines[] = $machines;
 
         return $this;
@@ -90,7 +96,8 @@ class Repair_status {
      *
      * @param \ServiceBundle\Entity\Machine $machines
      */
-    public function removeMachine(\ServiceBundle\Entity\Machine $machines) {
+    public function removeMachine(\ServiceBundle\Entity\Machine $machines)
+    {
         $this->machines->removeElement($machines);
     }
 
@@ -99,8 +106,8 @@ class Repair_status {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMachines() {
+    public function getMachines()
+    {
         return $this->machines;
     }
-
 }

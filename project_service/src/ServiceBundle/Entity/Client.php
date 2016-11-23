@@ -4,6 +4,7 @@ namespace ServiceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ServiceBundle\Entity\Machine;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Client
@@ -11,14 +12,21 @@ use ServiceBundle\Entity\Machine;
  * @ORM\Table(name="client")
  * @ORM\Entity(repositoryClass="ServiceBundle\Repository\ClientRepository")
  */
-class Client
-{
-    
+class Client {
+
+    public function __toString() {
+        return $this->name;
+    }
+
+    public function __construct() {
+        $this->machines = new ArrayCollection();
+    }
+
     /**
-     * @ORM\ManyToOne(targetEntity="Machine", inversedBy="clients")
+     * @ORM\OneToMany(targetEntity="Machine", mappedBy="client")
      */
-    private $machine;
-    
+    private $machines;
+
     /**
      * @var int
      *
@@ -35,14 +43,12 @@ class Client
      */
     private $name;
 
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -52,8 +58,7 @@ class Client
      * @param string $name
      * @return Client
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -64,31 +69,38 @@ class Client
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
-     * Set machine
+     * Add machines
      *
-     * @param \ServiceBundle\Entity\Machine $machine
+     * @param \ServiceBundle\Entity\Machine $machines
      * @return Client
      */
-    public function setMachine(\ServiceBundle\Entity\Machine $machine = null)
-    {
-        $this->machine = $machine;
+    public function addMachine(\ServiceBundle\Entity\Machine $machines) {
+        $this->machines[] = $machines;
 
         return $this;
     }
 
     /**
-     * Get machine
+     * Remove machines
      *
-     * @return \ServiceBundle\Entity\Machine 
+     * @param \ServiceBundle\Entity\Machine $machines
      */
-    public function getMachine()
-    {
-        return $this->machine;
+    public function removeMachine(\ServiceBundle\Entity\Machine $machines) {
+        $this->machines->removeElement($machines);
     }
+
+    /**
+     * Get machines
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMachines() {
+        return $this->machines;
+    }
+
 }

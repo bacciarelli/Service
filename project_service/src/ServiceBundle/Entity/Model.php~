@@ -7,26 +7,27 @@ use ServiceBundle\Entity\Machine;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Repair_status
+ * Model
  *
- * @ORM\Table(name="repair_status")
- * @ORM\Entity(repositoryClass="ServiceBundle\Repository\Repair_statusRepository")
+ * @ORM\Table(name="model")
+ * @ORM\Entity(repositoryClass="ServiceBundle\Repository\ModelRepository")
  */
-class Repair_status {
+class Model {
 
     public function __toString() {
         return $this->name;
     }
 
-    /**
-     * @ORM\OneToMany(targetEntity="Machine", mappedBy="repair_status")
-     */
-    private $machines;
-
     public function __construct() {
         $this->machines = new ArrayCollection();
     }
 
+    /**
+     * @ORM\OneToMany(targetEntity="Machine", mappedBy="model")
+     */
+    private $machines;
+
+   
     /**
      * @var int
      *
@@ -39,7 +40,7 @@ class Repair_status {
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=60, unique=true)
+     * @ORM\Column(name="name", type="string", length=100, unique=true)
      */
     private $name;
 
@@ -56,7 +57,7 @@ class Repair_status {
      * Set name
      *
      * @param string $name
-     * @return Repair_status
+     * @return Model
      */
     public function setName($name) {
         $this->name = $name;
@@ -77,7 +78,7 @@ class Repair_status {
      * Add machines
      *
      * @param \ServiceBundle\Entity\Machine $machines
-     * @return Repair_status
+     * @return Model
      */
     public function addMachine(\ServiceBundle\Entity\Machine $machines) {
         $this->machines[] = $machines;

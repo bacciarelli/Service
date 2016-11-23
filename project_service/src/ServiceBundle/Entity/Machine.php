@@ -3,11 +3,12 @@
 namespace ServiceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+
 use ServiceBundle\Entity\Brand;
 use ServiceBundle\Entity\Client;
 use ServiceBundle\Entity\Repair_status;
 use ServiceBundle\Entity\Type;
+use ServiceBundle\Entity\ModelMachine;
 
 
 /**
@@ -20,31 +21,31 @@ class Machine
 {
     
     /**
-     * @ORM\OneToMany(targetEntity="Brand", mappedBy="machine")
+     * @ORM\ManyToOne(targetEntity="Brand", inversedBy="machines")
      */
-    private $brands;
+    private $brand;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="ModelMachine", inversedBy="machines")
+     */
+    private $modelMachine;
         
     /**
-     * @ORM\OneToMany(targetEntity="Client", mappedBy="machine")
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="machines")
      */
-    private $clients;
+    private $client;
     
     /**
-     * @ORM\OneToMany(targetEntity="Type", mappedBy="machine")
+     * @ORM\ManyToOne(targetEntity="Type", inversedBy="machines")
      */
-    private $types;
+    private $type;
     
     /**
-     * @ORM\OneToMany(targetEntity="Repair_status", mappedBy="machine")
+     * @ORM\ManyToOne(targetEntity="Repair_status", inversedBy="machines")
      */
-    private $repairStatuses;
+    private $repairStatus;
     
-    public function __construct() {
-        $this->brands = new ArrayCollection();
-        $this->clients = new ArrayCollection();
-        $this->repairStatuses = new ArrayCollection();
-        $this->types = new ArrayCollection();
-    }
+    
     
     /**
      * @var int
@@ -246,135 +247,120 @@ class Machine
         return $this->machineDescription;
     }
 
+
     /**
-     * Add brands
+     * Set brand
      *
-     * @param \ServiceBundle\Entity\Brand $brands
+     * @param \ServiceBundle\Entity\Brand $brand
      * @return Machine
      */
-    public function addBrand(\ServiceBundle\Entity\Brand $brands)
+    public function setBrand(\ServiceBundle\Entity\Brand $brand = null)
     {
-        $this->brands[] = $brands;
+        $this->brand = $brand;
 
         return $this;
     }
 
     /**
-     * Remove brands
+     * Get brand
      *
-     * @param \ServiceBundle\Entity\Brand $brands
+     * @return \ServiceBundle\Entity\Brand 
      */
-    public function removeBrand(\ServiceBundle\Entity\Brand $brands)
+    public function getBrand()
     {
-        $this->brands->removeElement($brands);
+        return $this->brand;
     }
 
     /**
-     * Get brands
+     * Set client
      *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getBrands()
-    {
-        return $this->brands;
-    }
-
-    /**
-     * Add clients
-     *
-     * @param \ServiceBundle\Entity\Client $clients
+     * @param \ServiceBundle\Entity\Client $client
      * @return Machine
      */
-    public function addClient(\ServiceBundle\Entity\Client $clients)
+    public function setClient(\ServiceBundle\Entity\Client $client = null)
     {
-        $this->clients[] = $clients;
+        $this->client = $client;
 
         return $this;
     }
 
     /**
-     * Remove clients
+     * Get client
      *
-     * @param \ServiceBundle\Entity\Client $clients
+     * @return \ServiceBundle\Entity\Client 
      */
-    public function removeClient(\ServiceBundle\Entity\Client $clients)
+    public function getClient()
     {
-        $this->clients->removeElement($clients);
+        return $this->client;
     }
 
     /**
-     * Get clients
+     * Set type
      *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getClients()
-    {
-        return $this->clients;
-    }
-
-    /**
-     * Add types
-     *
-     * @param \ServiceBundle\Entity\Type $types
+     * @param \ServiceBundle\Entity\Type $type
      * @return Machine
      */
-    public function addType(\ServiceBundle\Entity\Type $types)
+    public function setType(\ServiceBundle\Entity\Type $type = null)
     {
-        $this->types[] = $types;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Remove types
+     * Get type
      *
-     * @param \ServiceBundle\Entity\Type $types
+     * @return \ServiceBundle\Entity\Type 
      */
-    public function removeType(\ServiceBundle\Entity\Type $types)
+    public function getType()
     {
-        $this->types->removeElement($types);
+        return $this->type;
     }
 
     /**
-     * Get types
+     * Set repairStatus
      *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTypes()
-    {
-        return $this->types;
-    }
-
-    /**
-     * Add repairStatuses
-     *
-     * @param \ServiceBundle\Entity\Repair_status $repairStatuses
+     * @param \ServiceBundle\Entity\Repair_status $repairStatus
      * @return Machine
      */
-    public function addRepairStatus(\ServiceBundle\Entity\Repair_status $repairStatuses)
+    public function setRepairStatus(\ServiceBundle\Entity\Repair_status $repairStatus = null)
     {
-        $this->repairStatuses[] = $repairStatuses;
+        $this->repairStatus = $repairStatus;
 
         return $this;
     }
 
     /**
-     * Remove repairStatuses
+     * Get repairStatus
      *
-     * @param \ServiceBundle\Entity\Repair_status $repairStatuses
+     * @return \ServiceBundle\Entity\Repair_status 
      */
-    public function removeRepairStatus(\ServiceBundle\Entity\Repair_status $repairStatuses)
+    public function getRepairStatus()
     {
-        $this->repairStatuses->removeElement($repairStatuses);
+        return $this->repairStatus;
+    }
+
+
+    /**
+     * Set modelMachine
+     *
+     * @param \ServiceBundle\Entity\ModelMachine $modelMachine
+     * @return Machine
+     */
+    public function setModelMachine(\ServiceBundle\Entity\ModelMachine $modelMachine = null)
+    {
+        $this->modelMachine = $modelMachine;
+
+        return $this;
     }
 
     /**
-     * Get repairStatuses
+     * Get modelMachine
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \ServiceBundle\Entity\ModelMachine 
      */
-    public function getRepairStatuses()
+    public function getModelMachine()
     {
-        return $this->repairStatuses;
+        return $this->modelMachine;
     }
 }

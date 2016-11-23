@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TypeType extends AbstractType
+class ModelMachineType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -22,7 +22,7 @@ class TypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ServiceBundle\Entity\Type'
+            'data_class' => 'ServiceBundle\Entity\ModelMachine'
         ));
     }
 
@@ -31,7 +31,7 @@ class TypeType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'servicebundle_type';
+        return 'servicebundle_modelmachine';
     }
 
 
