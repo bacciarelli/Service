@@ -1,45 +1,63 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Machine</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ machine.id }}</td>
-            </tr>
-            <tr>
-                <th>Client</th>
-                <td>{{ machine.client }}</td>
-            </tr>
-            <tr>
-                <th>Complaintnumber</th>
-                <td>{{ machine.complaintNumber }}</td>
-            </tr>
-            <tr>
-                <th>Insertiondate</th>
-                <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Complaintdescription</th>
-                <td>{{ machine.complaintDescription }}</td>
-            </tr>
-            <tr>
-                <th>Repairdescription</th>
-                <td>{{ machine.repairDescription }}</td>
-            </tr>
-            <tr>
-                <th>Repairdate</th>
-                <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Machinedescription</th>
-                <td>{{ machine.machineDescription }}</td>
-            </tr>
-        </tbody>
-    </table>
-
+    <div class="col-lg-10">
+        <h1>Machine</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ machine.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Client</th>
+                        <td>{{ machine.client }}</td>
+                    </tr>
+                    <tr>
+                        <th>Complaintnumber</th>
+                        <td>{{ machine.complaintNumber }}</td>
+                    </tr>
+                    <tr>
+                        <th>Complaintdescription</th>
+                        <td>{{ machine.complaintDescription }}</td>
+                    </tr>
+                    <tr>
+                        <th>Machinedescription</th>
+                        <td>{{ machine.machineDescription }}</td>
+                    </tr>
+                    <tr>
+                        <th>Brand</th>
+                        <td>{{ machine.brand }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ machine.type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Model</th>
+                        <td>{{ machine.modelMachine }}</td>
+                    </tr>
+                    <tr>
+                        <th>Insertiondate</th>
+                        <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Repairdescription</th>
+                        <td>{{ machine.repairDescription }}</td>
+                    </tr>
+                    <tr>
+                        <th>Repairdate</th>
+                        <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Repair status</th>
+                        <td>{{ machine.repairStatus }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <ul>
         <li>
             <a href="{{ path('machine_index') }}">Back to the list</a>

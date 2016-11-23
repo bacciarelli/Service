@@ -7,79 +7,76 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 /**
  * Machine controller.
  *
  * @Route("machine")
  */
-class MachineController extends Controller
-{
+class MachineController extends Controller {
+
     /**
      * Lists all machine entities.
      *
      * @Route("/", name="machine_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $machines = $em->getRepository('ServiceBundle:Machine')->findAll();
 
         return $this->render('machine/index.html.twig', array(
-            'machines' => $machines,
+                    'machines' => $machines,
         ));
     }
-    
+
     /**
      * Lists machine entities with sended status.
      *
      * @Route("/sended", name="machine_index_sended")
      * @Method("GET")
      */
-    public function indexSendedAction()
-    {
+    public function indexSendedAction() {
         $em = $this->getDoctrine()->getManager();
 
         $machines = $em->getRepository('ServiceBundle:Machine')->findByrepairStatus(3);
 
         return $this->render('machine/index_sended.html.twig', array(
-            'machines' => $machines,
+                    'machines' => $machines,
         ));
     }
-    
+
     /**
      * Lists machine entities with repaired status.
      *
      * @Route("/repaired", name="machine_index_repaired")
      * @Method("GET")
      */
-    public function indexRepairedAction()
-    {
+    public function indexRepairedAction() {
         $em = $this->getDoctrine()->getManager();
 
         $machines = $em->getRepository('ServiceBundle:Machine')->findByrepairStatus(2);
 
         return $this->render('machine/index_repaired.html.twig', array(
-            'machines' => $machines,
+                    'machines' => $machines,
         ));
     }
-    
+
     /**
      * Lists machine entities with not repaired status.
      *
      * @Route("/notrepaired", name="machine_index_not_repaired")
      * @Method("GET")
      */
-    public function indexNotRepairedAction()
-    {
+    public function indexNotRepairedAction() {
         $em = $this->getDoctrine()->getManager();
 
         $machines = $em->getRepository('ServiceBundle:Machine')->findByrepairStatus(1);
 
         return $this->render('machine/index_not_repaired.html.twig', array(
-            'machines' => $machines,
+                    'machines' => $machines,
         ));
     }
 
@@ -89,8 +86,7 @@ class MachineController extends Controller
      * @Route("/new", name="machine_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $machine = new Machine();
         $form = $this->createForm('ServiceBundle\Form\MachineType', $machine);
         $form->handleRequest($request);
@@ -99,7 +95,7 @@ class MachineController extends Controller
             $em = $this->getDoctrine()->getManager();
             $instime = new \DateTime("now");
             $machine->setInsertionDate($instime);
-            if($machine->getRepairStatus()->getId() != 1) {
+            if ($machine->getRepairStatus()->getId() != 1) {
                 $reptime = new \DateTime("now");
                 $machine->setRepairDate($reptime);
             }
@@ -110,8 +106,8 @@ class MachineController extends Controller
         }
 
         return $this->render('machine/new.html.twig', array(
-            'machine' => $machine,
-            'form' => $form->createView(),
+                    'machine' => $machine,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -121,13 +117,12 @@ class MachineController extends Controller
      * @Route("/{id}", name="machine_show")
      * @Method("GET")
      */
-    public function showAction(Machine $machine)
-    {
+    public function showAction(Machine $machine) {
         $deleteForm = $this->createDeleteForm($machine);
 
         return $this->render('machine/show.html.twig', array(
-            'machine' => $machine,
-            'delete_form' => $deleteForm->createView(),
+                    'machine' => $machine,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -137,8 +132,7 @@ class MachineController extends Controller
      * @Route("/{id}/edit", name="machine_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Machine $machine)
-    {
+    public function editAction(Request $request, Machine $machine) {
         $deleteForm = $this->createDeleteForm($machine);
         $editForm = $this->createForm('ServiceBundle\Form\MachineType', $machine)->add('insertionDate')->add('repairDate');
         $editForm->handleRequest($request);
@@ -150,10 +144,68 @@ class MachineController extends Controller
         }
 
         return $this->render('machine/edit.html.twig', array(
-            'machine' => $machine,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'machine' => $machine,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    /**
+     * Displays a form to add repair description to existing machine entity.
+     *
+     * @Route("/{id}/repair", name="machine_repair")
+     * @Method({"GET", "POST"})
+     */
+    public function repairAction(Request $request, Machine $machine) {
+
+        $repairForm = $this->createFormBuilder($machine)->add('repairDescription')->getForm();
+        $repairForm->handleRequest($request);
+
+        if ($repairForm->isSubmitted() && $repairForm->isValid()) {
+
+            $reptime = new \DateTime("now");
+            $machine->setRepairDate($reptime);
+
+            $em = $this->getDoctrine()->getManager();
+            $status = $em->getRepository('ServiceBundle:Repair_status')->find(2);
+            $machine->setRepairStatus($status);
+
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('machine_index_not_repaired', array('id' => $machine->getId()));
+        }
+
+        return $this->render('machine/repair.html.twig', array(
+                    'machine' => $machine,
+                    'repair_form' => $repairForm->createView(),
+        ));
+    }
+
+    /**
+     * Seting up 'sended' status to existing machine entity.
+     *
+     * @Route("/{id}/send", name="machine_send")
+     * @Method({"GET"})
+     */
+    public function SendAction(Request $request, Machine $machine) {
+
+        $em = $this->getDoctrine()->getManager();
+        $sendedStatus = $em->getRepository('ServiceBundle:Repair_status')->find(3);
+        $machine->setRepairStatus($sendedStatus);
+
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('machine_index_repaired');
+    }
+
+    /**
+     * Create service doc for existing machine entity.
+     *
+     * @Route("/{id}/servicedoc", name="machine_servicedoc")
+     * @Method({"GET"})
+     */
+    public function ServiceDocAction(Request $request, Machine $machine) {
+
+        return $this->render('service_document/show.html.twig', array(
+        'machine' => $machine));
     }
 
     /**
@@ -162,8 +214,7 @@ class MachineController extends Controller
      * @Route("/{id}", name="machine_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Machine $machine)
-    {
+    public function deleteAction(Request $request, Machine $machine) {
         $form = $this->createDeleteForm($machine);
         $form->handleRequest($request);
 
@@ -183,12 +234,12 @@ class MachineController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Machine $machine)
-    {
+    private function createDeleteForm(Machine $machine) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('machine_delete', array('id' => $machine->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('machine_delete', array('id' => $machine->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }
