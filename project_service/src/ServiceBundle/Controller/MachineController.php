@@ -31,6 +31,57 @@ class MachineController extends Controller
             'machines' => $machines,
         ));
     }
+    
+    /**
+     * Lists machine entities with sended status.
+     *
+     * @Route("/sended", name="machine_index_sended")
+     * @Method("GET")
+     */
+    public function indexSendedAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $machines = $em->getRepository('ServiceBundle:Machine')->findByrepairStatus(3);
+
+        return $this->render('machine/index_sended.html.twig', array(
+            'machines' => $machines,
+        ));
+    }
+    
+    /**
+     * Lists machine entities with repaired status.
+     *
+     * @Route("/repaired", name="machine_index_repaired")
+     * @Method("GET")
+     */
+    public function indexRepairedAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $machines = $em->getRepository('ServiceBundle:Machine')->findByrepairStatus(2);
+
+        return $this->render('machine/index_repaired.html.twig', array(
+            'machines' => $machines,
+        ));
+    }
+    
+    /**
+     * Lists machine entities with not repaired status.
+     *
+     * @Route("/notrepaired", name="machine_index_not_repaired")
+     * @Method("GET")
+     */
+    public function indexNotRepairedAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $machines = $em->getRepository('ServiceBundle:Machine')->findByrepairStatus(1);
+
+        return $this->render('machine/index_not_repaired.html.twig', array(
+            'machines' => $machines,
+        ));
+    }
 
     /**
      * Creates a new machine entity.
@@ -46,8 +97,12 @@ class MachineController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $time = new \DateTime("now");
-            $machine->setInsertionDate($time);
+            $instime = new \DateTime("now");
+            $machine->setInsertionDate($instime);
+            if($machine->getRepairStatus()->getId() != 1) {
+                $reptime = new \DateTime("now");
+                $machine->setRepairDate($reptime);
+            }
             $em->persist($machine);
             $em->flush($machine);
 
@@ -85,7 +140,7 @@ class MachineController extends Controller
     public function editAction(Request $request, Machine $machine)
     {
         $deleteForm = $this->createDeleteForm($machine);
-        $editForm = $this->createForm('ServiceBundle\Form\MachineType', $machine);
+        $editForm = $this->createForm('ServiceBundle\Form\MachineType', $machine)->add('insertionDate')->add('repairDate');
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

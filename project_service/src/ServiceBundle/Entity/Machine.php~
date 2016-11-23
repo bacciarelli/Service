@@ -41,6 +41,7 @@ class Machine
     private $type;
     
     /**
+     *
      * @ORM\ManyToOne(targetEntity="Repair_status", inversedBy="machines")
      */
     private $repairStatus;
@@ -340,4 +341,27 @@ class Machine
         return $this->repairStatus;
     }
 
+
+    /**
+     * Set modelMachine
+     *
+     * @param \ServiceBundle\Entity\ModelMachine $modelMachine
+     * @return Machine
+     */
+    public function setModelMachine(\ServiceBundle\Entity\ModelMachine $modelMachine = null)
+    {
+        $this->modelMachine = $modelMachine;
+
+        return $this;
+    }
+
+    /**
+     * Get modelMachine
+     *
+     * @return \ServiceBundle\Entity\ModelMachine 
+     */
+    public function getModelMachine()
+    {
+        return $this->modelMachine;
+    }
 }

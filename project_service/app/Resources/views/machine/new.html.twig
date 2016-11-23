@@ -4,7 +4,16 @@
     <h1>Machine creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_row(form.client) }}
+        {{ form_row(form.complaintNumber) }}
+        {{ form_row(form.complaintDescription) }}
+        {{ form_row(form.machineDescription) }}
+        {{ form_row(form.brand) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.modelMachine) }}
+        <h3>Opcjonalnie:</h3>
+        {{ form_row(form.repairDescription) }}
+        {{ form_row(form.repairStatus) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 

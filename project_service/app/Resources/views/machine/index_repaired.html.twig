@@ -10,7 +10,6 @@
                     <th>Complaintnumber</th>
                     <th>Machinedescription</th>
                     <th>Complaintdescription</th>
-                    <th>Status</th>
                     <th>Repairdescription</th>
                     <th>Insertiondate</th>
                     <th>Repairdate</th>
@@ -23,7 +22,6 @@
                         <td>{{ machine.complaintNumber }}</td>
                         <td>{{ machine.machineDescription }}</td>
                         <td>{{ machine.complaintDescription }}</td>
-                        <td>{{ machine.repairStatus }}</td>
                         <td>{{ machine.repairDescription }}</td>
                         <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>

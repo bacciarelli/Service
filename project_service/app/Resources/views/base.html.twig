@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Service</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('sbadmin/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -46,7 +46,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">SB Admin</a>
+            <a class="navbar-brand" href="index.html">Service</a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
@@ -156,7 +156,22 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li class="active">
-                    <a href="{{ path('machine_index') }}"><i class="fa fa-fw fa-dashboard"></i> {{ 'machine_index'|trans }}</a>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+                            class="fa fa-fw fa-arrows-v"></i> Machine <i class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="demo" class="collapse">
+                        <li>
+                            <a href="{{ path('machine_index') }}">All machines</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('machine_index_not_repaired') }}">Not repaired machines</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('machine_index_repaired') }}">Repaired machines</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('machine_index_sended') }}">Sended machines</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{ path('brand_index') }}"><i class="fa fa-fw fa-bar-chart-o"></i> {{ 'brand_index'|trans }}</a>
@@ -172,24 +187,6 @@
                 </li>
                 <li>
                     <a href="{{ path('modelmachine_index') }}"><i class="fa fa-fw fa-wrench"></i> {{ 'model_index'|trans }}</a>
-                </li>
-                <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
-                                class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="demo" class="collapse">
-                        <li>
-                            <a href="#">Dropdown Item</a>
-                        </li>
-                        <li>
-                            <a href="#">Dropdown Item</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                </li>
-                <li>
-                    <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
                 </li>
             </ul>
         </div>
