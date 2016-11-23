@@ -41,6 +41,7 @@ class Machine
     private $type;
     
     /**
+     * @ORM\OrderBy({"name" = "DESC"})
      * @ORM\ManyToOne(targetEntity="Repair_status", inversedBy="machines")
      */
     private $repairStatus;
