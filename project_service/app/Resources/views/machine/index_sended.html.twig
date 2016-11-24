@@ -1,49 +1,66 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="col-lg-10">
-    <h1>Machines list</h1>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>Complaintnumber</th>
-                    <th>Machinedescription</th>
-                    <th>Complaintdescription</th>
-                    <th>Repairdescription</th>
-                    <th>Insertiondate</th>
-                    <th>Repairdate</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for machine in machines %}
-                    <tr>
-                        <td>{{ machine.complaintNumber }}</td>
-                        <td>{{ machine.machineDescription }}</td>
-                        <td>{{ machine.complaintDescription }}</td>
-                        <td>{{ machine.repairDescription }}</td>
-                        <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                        <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                        <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('machine_show', { 'id': machine.id }) }}">show</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('machine_edit', { 'id': machine.id }) }}">edit</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Machines list</h1>
+            <a class="btn btn-primary" href="{{ path('machine_new') }}">Create a new machine</a>
+            <br><br>
+        </div>
+        <!-- /.col-lg-12 -->
     </div>
-    <ul>
-        <li>
-            <a href="{{ path('machine_new') }}">Create a new machine</a>
-        </li>
-    </ul>
-</div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Sended machines</h4>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Complaintnumber</th>
+                                <th>Machinedescription</th>
+                                <th>Complaintdescription</th>
+                                <th>Repairdescription</th>
+                                <th>Insertiondate</th>
+                                <th>Repairdate</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for machine in machines %}
+                                <tr>
+                                    <td>{{ machine.client }}</td>
+                                    <td>{{ machine.complaintNumber }}</td>
+                                    <td>{{ machine.machineDescription }}</td>
+                                    <td>{{ machine.complaintDescription }}</td>
+                                    <td>{{ machine.repairDescription }}</td>
+                                    <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                    <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                    <td>
+                                        <ul>
+                                            <li>
+                                                <a href="{{ path('machine_show', { 'id': machine.id }) }}">show</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('machine_edit', { 'id': machine.id }) }}">edit</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
 {% endblock %}
