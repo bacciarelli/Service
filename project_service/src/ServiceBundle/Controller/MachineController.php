@@ -171,14 +171,14 @@ class MachineController extends Controller {
             $machine->setRepairStatus($status);
 
             $this->getDoctrine()->getManager()->flush();
-            
+            return $this->redirectToRoute('machine_servicedoc', array ('id' => $machine->getId()));
             //generate PDF
-            $html = $this->renderView('service_document/show.html.twig', array(
-            'machine' => $machine,
-        ));
-        $mpdfService = $this->get('tfox.mpdfport');
-        $mpdfService->setAddDefaultConstructorArgs(false);
-        return $response = $mpdfService->generatePdfResponse($html);
+//            $html = $this->renderView('service_document/show.html.twig', array(
+//            'machine' => $machine,
+//        ));
+//        $mpdfService = $this->get('tfox.mpdfport');
+//        $mpdfService->setAddDefaultConstructorArgs(false);
+//        return $response = $mpdfService->generatePdfResponse($html);
 //        return $this->render('service_document/show.html.twig', array(
 //            'machine' => $machine,
 //        ));
@@ -190,29 +190,6 @@ class MachineController extends Controller {
         ));
     }
     
-    /**
-     * Displays a form to add repair description to existing machine entity.
-     *
-     * @Route("/{id}/print", name="machine_print")
-     * @Method({"GET", "POST"})
-     */
-    public function repairprintAction($id) {
-
-            $em = $this->getDoctrine()->getManager();
-            $machine = $em->getRepository('ServiceBundle:Machine')->findById($id);
-
-            //generate PDF
-            $html = $this->renderView('service_document/show.html.twig', array(
-            'machine' => $machine,
-        ));
-        $mpdfService = $this->get('tfox.mpdfport');
-        $mpdfService->setAddDefaultConstructorArgs(false);
-        return $response = $mpdfService->generatePdfResponse($html);
-//        return $this->render('service_document/show.html.twig', array(
-//            'machine' => $machine,
-//        ));
-        
-    }
 
     /**
      * Seting up 'sended' status to existing machine entity.
@@ -238,8 +215,11 @@ class MachineController extends Controller {
      */
     public function ServiceDocAction(Request $request, Machine $machine) {
 
-        return $this->render('service_document/show.html.twig', array(
-        'machine' => $machine));
+        $html = $this->renderView('service_document/show.html.twig', array(
+            'machine' => $machine,
+        ));
+        $mpdfService = $this->get('tfox.mpdfport');
+        return $response = $mpdfService->generatePdfResponse($html);
     }
 
     /**

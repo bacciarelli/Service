@@ -58,6 +58,11 @@
             </table>
         </div>
         <ul>
+            {% if machine.repairStatus.id != 1 %}
+                <li>
+                    <a href="{{ path('machine_servicedoc', { 'id': machine.id }) }}" target="_blank">Create PDF</a>
+                </li>
+            {% endif %}
             <li>
                 <a href="{{ path('machine_index') }}">Back to the list</a>
             </li>

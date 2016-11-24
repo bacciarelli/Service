@@ -7,7 +7,7 @@
     {{machine.type}}<br><br>
     {{ form_start(repair_form) }}
         {{ form_widget(repair_form) }}
-        <input type="submit" formtarget="_blank" value="Add repair description" />
+        <input type="submit" formtarget="_blank" value="Add repair description and generate PDF" />
     {{ form_end(repair_form) }}
    
     <br>
@@ -15,7 +15,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('machine_index') }}">Back to the list</a>
+            <a href="{{ path('machine_index_not_repaired') }}">Back to the not repaired machines</a>
         </li>
     </ul>
 {% endblock %}

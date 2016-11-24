@@ -45,6 +45,11 @@
                                     <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                                     <td>
                                         <ul>
+                                            {% if machine.repairStatus.id != 1 %}
+                                            <li>
+                                                <a href="{{ path('machine_servicedoc', { 'id': machine.id }) }}" target="_blank">Create PDF</a>
+                                            </li>
+                                            {% endif %}
                                             <li>
                                                 <a href="{{ path('machine_show', { 'id': machine.id }) }}">show</a>
                                             </li>
