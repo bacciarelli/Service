@@ -17,18 +17,19 @@
                 </tbody>
             </table>
         </div>
+        <ul>
+            <li>
+                <a href="{{ path('brand_index') }}">Back to the list</a>
+            </li>
+            <li>
+                <a href="{{ path('brand_edit', { 'id': brand.id }) }}">Edit</a>
+            </li>
+            <li>
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </li>
+        </ul>
     </div>
-    <ul>
-        <li>
-            <a href="{{ path('brand_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('brand_edit', { 'id': brand.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-            <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+
 {% endblock %}

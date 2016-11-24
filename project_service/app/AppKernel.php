@@ -16,6 +16,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new ServiceBundle\ServiceBundle(),
+            new TFox\MpdfPortBundle\TFoxMpdfPortBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

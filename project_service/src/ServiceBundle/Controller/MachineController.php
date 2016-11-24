@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+
 
 /**
  * Machine controller.
@@ -171,13 +171,47 @@ class MachineController extends Controller {
             $machine->setRepairStatus($status);
 
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('machine_index_not_repaired', array('id' => $machine->getId()));
+            
+            //generate PDF
+            $html = $this->renderView('service_document/show.html.twig', array(
+            'machine' => $machine,
+        ));
+        $mpdfService = $this->get('tfox.mpdfport');
+        $mpdfService->setAddDefaultConstructorArgs(false);
+        return $response = $mpdfService->generatePdfResponse($html);
+//        return $this->render('service_document/show.html.twig', array(
+//            'machine' => $machine,
+//        ));
         }
 
         return $this->render('machine/repair.html.twig', array(
                     'machine' => $machine,
                     'repair_form' => $repairForm->createView(),
         ));
+    }
+    
+    /**
+     * Displays a form to add repair description to existing machine entity.
+     *
+     * @Route("/{id}/print", name="machine_print")
+     * @Method({"GET", "POST"})
+     */
+    public function repairprintAction($id) {
+
+            $em = $this->getDoctrine()->getManager();
+            $machine = $em->getRepository('ServiceBundle:Machine')->findById($id);
+
+            //generate PDF
+            $html = $this->renderView('service_document/show.html.twig', array(
+            'machine' => $machine,
+        ));
+        $mpdfService = $this->get('tfox.mpdfport');
+        $mpdfService->setAddDefaultConstructorArgs(false);
+        return $response = $mpdfService->generatePdfResponse($html);
+//        return $this->render('service_document/show.html.twig', array(
+//            'machine' => $machine,
+//        ));
+        
     }
 
     /**

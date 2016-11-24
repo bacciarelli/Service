@@ -15,15 +15,15 @@
                         <td>{{ machine.client }}</td>
                     </tr>
                     <tr>
-                        <th>Complaintnumber</th>
+                        <th>Complaint number</th>
                         <td>{{ machine.complaintNumber }}</td>
                     </tr>
                     <tr>
-                        <th>Complaintdescription</th>
+                        <th>Complaint description</th>
                         <td>{{ machine.complaintDescription }}</td>
                     </tr>
                     <tr>
-                        <th>Machinedescription</th>
+                        <th>Machine description</th>
                         <td>{{ machine.machineDescription }}</td>
                     </tr>
                     <tr>
@@ -39,15 +39,15 @@
                         <td>{{ machine.modelMachine }}</td>
                     </tr>
                     <tr>
-                        <th>Insertiondate</th>
+                        <th>Insertion date</th>
                         <td>{% if machine.insertionDate %}{{ machine.insertionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                     </tr>
                     <tr>
-                        <th>Repairdescription</th>
+                        <th>Repair description</th>
                         <td>{{ machine.repairDescription }}</td>
                     </tr>
                     <tr>
-                        <th>Repairdate</th>
+                        <th>Repair date</th>
                         <td>{% if machine.repairDate %}{{ machine.repairDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                     </tr>
                     <tr>
@@ -57,18 +57,19 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <ul>
-        <li>
-            <a href="{{ path('machine_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('machine_edit', { 'id': machine.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
+        <ul>
+            <li>
+                <a href="{{ path('machine_index') }}">Back to the list</a>
+            </li>
+            <li>
+                <a href="{{ path('machine_edit', { 'id': machine.id }) }}">Edit</a>
+            </li>
+            <li>
+                {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+                {{ form_end(delete_form) }}
+            </li>
+        </ul>
+    </div>
+
 {% endblock %}

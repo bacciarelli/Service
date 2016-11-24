@@ -2,10 +2,12 @@
 
 {% block body %}
     <h1>Repair description</h1>
-    {{machine.type}}
+    {{ machine.client }}<br>
+    reclamation number: {{ machine.complaintNumber }}<br>
+    {{machine.type}}<br><br>
     {{ form_start(repair_form) }}
         {{ form_widget(repair_form) }}
-        <input type="submit" value="Add repair description" />
+        <input type="submit" formtarget="_blank" value="Add repair description" />
     {{ form_end(repair_form) }}
    
     <br>

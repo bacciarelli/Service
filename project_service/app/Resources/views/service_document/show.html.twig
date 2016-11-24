@@ -2,146 +2,112 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Service{% endblock %}</title>
-        <link href="{{ asset('sbadmin/css/bootstrap.min.css') }}" rel="stylesheet">
-    {% block stylesheets %}{% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="invoice-title">
-                    <h2>Dokument serwisowy</h2><h3 class="pull-right">Nr reklamacji: {{machine.complaintNumber}}</h3>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <address>
-                            <strong>Dane serwisowe:</strong><br>
-                            John Smith<br>
-                            1234 Main<br>
-                            Apt. 4B<br>
-                            Springfield, ST 54321
-                        </address>
-                    </div>
-                    <div class="col-xs-6 text-right">
-                        <address>
-                            <strong>Machine Data:</strong><br>
-                            Client: {{machine.client}}<br>
-                            Brand: {{machine.brand}}<br>
-                            Type: {{machine.type}}<br>
-                            Model: {{machine.modelmachine}}<br>
-                            Repair Date: {{machine.repairDate|date('Y-m-d H:i:s')}}
-                        </address>
-                    </div>
-                </div>
-                {#<div class="row">
-                    <div class="col-xs-6">
-                        <address>
-                            <strong>Payment Method:</strong><br>
-                            Visa ending **** 4242<br>
-                            jsmith@email.com
-                        </address>
-                    </div>
-                    <div class="col-xs-6 text-right">
-                        <address>
-                            <strong>Repair Date:</strong><br>
-                            {{machine.repairDate|date('Y-m-d H:i:s')}}<br><br>
-                        </address>
-                    </div>
-                </div>#}
+        <title>Service</title>
+        
+    </head>
+    <body>
+        <style type="text/css">
+                .tg  {border-collapse:collapse;border-spacing:0;}
+                .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+                .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+                .tg .tg-yw4l{vertical-align:top}
+            </style>
+        <div>
+            <div>
+                <h2>Dokument serwisowy</h2>
+                Dane serwisowe:<br>
+                John Smith<br>
+                1234 Main<br>
+                Apt. 4B<br>
+                Springfield, ST 54321
+                <h3>Nr reklamacji: {{machine.complaintNumber}}</h3>
             </div>
-        </div>
+            
+            <table class="tg">
+  <tr>
+    <th class="tg-yw4l" colspan="5">Machine Data:</th>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">Client</td>
+    <td class="tg-yw4l">Brand</td>
+    <td class="tg-yw4l">Type</td>
+    <td class="tg-yw4l">Model</td>
+    <td class="tg-yw4l">Repair Date</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">{{machine.client}}</td>
+    <td class="tg-yw4l">{{machine.brand}}</td>
+    <td class="tg-yw4l">{{machine.type}}</td>
+    <td class="tg-yw4l">{{machine.modelmachine}}</td>
+    <td class="tg-yw4l">{{machine.repairDate|date('Y-m-d H:i:s')}}</td>
+  </tr>
+</table>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Repair description</strong></h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-condensed">
-                                <tbody>
-                                    <tr>
-                                        <td>{{machine.repairDescription}}</td>  
-                                    </tr>                        
-                                </tbody>
-                            </table>
-                        </div>
+            <div>
+                <div>
+                    <h3><strong>Repair description:</strong></h3>
+                </div>
+                <div>
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>{{machine.repairDescription}}</td>  
+                                </tr>                        
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="invoice-title">
-                    <h2>Dokument serwisowy</h2><h3 class="pull-right">Nr reklamacji: {{machine.complaintNumber}}</h3>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <address>
-                            <strong>Dane serwisowe:</strong><br>
-                            John Smith<br>
-                            1234 Main<br>
-                            Apt. 4B<br>
-                            Springfield, ST 54321
-                        </address>
-                    </div>
-                    <div class="col-xs-6 text-right">
-                        <address>
-                            <strong>Machine Data:</strong><br>
-                            Client: {{machine.client}}<br>
-                            Brand: {{machine.brand}}<br>
-                            Type: {{machine.type}}<br>
-                            Model: {{machine.modelmachine}}<br>
-                            Repair Date: {{machine.repairDate|date('Y-m-d H:i:s')}}
-                        </address>
-                    </div>
-                </div>
-                {#<div class="row">
-                    <div class="col-xs-6">
-                        <address>
-                            <strong>Payment Method:</strong><br>
-                            Visa ending **** 4242<br>
-                            jsmith@email.com
-                        </address>
-                    </div>
-                    <div class="col-xs-6 text-right">
-                        <address>
-                            <strong>Repair Date:</strong><br>
-                            {{machine.repairDate|date('Y-m-d H:i:s')}}<br><br>
-                        </address>
-                    </div>
-                </div>#}
+        </div><br><br>
+        <hr><br><br><br>
+        <div>
+            <div>
+                <h2>Dokument serwisowy</h2>
+                Dane serwisowe:<br>
+                John Smith<br>
+                1234 Main<br>
+                Apt. 4B<br>
+                Springfield, ST 54321
+                <h3>Nr reklamacji: {{machine.complaintNumber}}</h3>
             </div>
-        </div>
+            
+            <table class="tg">
+  <tr>
+    <th class="tg-yw4l" colspan="5">Machine Data:</th>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">Client</td>
+    <td class="tg-yw4l">Brand</td>
+    <td class="tg-yw4l">Type</td>
+    <td class="tg-yw4l">Model</td>
+    <td class="tg-yw4l">Repair Date</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">{{machine.client}}</td>
+    <td class="tg-yw4l">{{machine.brand}}</td>
+    <td class="tg-yw4l">{{machine.type}}</td>
+    <td class="tg-yw4l">{{machine.modelmachine}}</td>
+    <td class="tg-yw4l">{{machine.repairDate|date('Y-m-d H:i:s')}}</td>
+  </tr>
+</table>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Repair description</strong></h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-condensed">
-                                <tbody>
-                                    <tr>
-                                        <td>{{machine.repairDescription}}</td>  
-                                    </tr>                        
-                                </tbody>
-                            </table>
-                        </div>
+            <div>
+                <div>
+                    <h3><strong>Repair description:</strong></h3>
+                </div>
+                <div>
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>{{machine.repairDescription}}</td>  
+                                </tr>                        
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    </div>                  
-{% block javascripts %}{% endblock %}
-</body>
+    </body>
 </html>

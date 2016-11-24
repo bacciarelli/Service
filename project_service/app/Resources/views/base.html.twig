@@ -51,7 +51,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html">Service</a>
+                    <a class="navbar-brand" href="{{ path('machine_index') }}">Service</a>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -85,7 +85,7 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Machine<span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-gears fa-fw"></i> Machine<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
                                         <a href="{{ path('machine_index') }}">All machines</a>
@@ -106,7 +106,7 @@
                                 <a href="{{ path('brand_index') }}"><i class="fa fa-fw fa-bar-chart-o"></i> {{ 'Brands'|trans }}</a>
                             </li>
                             <li>
-                                <a href="{{ path('client_index') }}"><i class="fa fa-fw fa-table"></i> {{ 'Clients'|trans }}</a>
+                                <a href="{{ path('client_index') }}"><i class="fa fa-fw fa-user"></i> {{ 'Clients'|trans }}</a>
                             </li>
                             <li>
                                 <a href="{{ path('repair_status_index') }}"><i class="fa fa-fw fa-edit"></i> {{ 'Repair statuses'|trans }}</a>
