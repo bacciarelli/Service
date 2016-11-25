@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 
 /**
+ * 
  * Machine controller.
  *
  * @Route("machine")
