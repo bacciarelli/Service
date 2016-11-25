@@ -15,14 +15,22 @@ class MachineType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('client')->add('complaintNumber')->add('complaintDescription')->add('machineDescription')->add('repairDescription')->add('brand')->add('type')->add('modelMachine')->add('repairStatus', EntityType::class, array(
-    'class' => 'ServiceBundle:Repair_status',
-    'query_builder' => function (EntityRepository $er) {
-        return $er->createQueryBuilder('u')
-            ->orderBy('u.id', 'ASC');
-    },
-    'choice_label' => 'name',
-));
+        $builder->add('client')
+                ->add('complaintNumber')
+                ->add('complaintDescription')
+                ->add('machineDescription')
+                ->add('repairDescription')
+                ->add('brand')
+                ->add('type')
+                ->add('modelMachine')
+                ->add('repairStatus', EntityType::class, array(
+                    'class' => 'ServiceBundle:Repair_status',
+                    'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                    ->orderBy('u.id', 'ASC');
+                    },
+                    'choice_label' => 'name',
+                    ));
     }
     
     /**
