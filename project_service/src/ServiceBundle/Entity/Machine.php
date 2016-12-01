@@ -9,6 +9,8 @@ use ServiceBundle\Entity\Client;
 use ServiceBundle\Entity\Repair_status;
 use ServiceBundle\Entity\Type;
 use ServiceBundle\Entity\ModelMachine;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -16,6 +18,7 @@ use ServiceBundle\Entity\ModelMachine;
  *
  * @ORM\Table(name="machine")
  * @ORM\Entity(repositoryClass="ServiceBundle\Repository\MachineRepository")
+ * @UniqueEntity("complaintNumber")
  */
 class Machine
 {
@@ -67,6 +70,10 @@ class Machine
     /**
      * @var \DateTime
      *
+     * @Assert\Length(
+     * min=2,
+     * max=45
+     * )
      * @ORM\Column(name="insertion_date", type="datetime")
      */
     private $insertionDate;

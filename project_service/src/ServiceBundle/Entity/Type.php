@@ -5,12 +5,15 @@ namespace ServiceBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ServiceBundle\Entity\Machine;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Type
  *
  * @ORM\Table(name="type")
  * @ORM\Entity(repositoryClass="ServiceBundle\Repository\TypeRepository")
+ * @UniqueEntity("name")
  */
 class Type {
 
@@ -39,6 +42,10 @@ class Type {
     /**
      * @var string
      *
+     * @Assert\Length(
+     * min=2,
+     * max=100
+     * )
      * @ORM\Column(name="name", type="string", length=100, unique=true)
      */
     private $name;

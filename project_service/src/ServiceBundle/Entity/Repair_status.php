@@ -5,12 +5,16 @@ namespace ServiceBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ServiceBundle\Entity\Machine;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Repair_status
  *
  * @ORM\Table(name="repair_status")
  * @ORM\Entity(repositoryClass="ServiceBundle\Repository\Repair_statusRepository")
+ * @UniqueEntity("name")
  */
 class Repair_status {
 
@@ -39,6 +43,10 @@ class Repair_status {
     /**
      * @var string
      *
+     * @Assert\Length(
+     * min=2,
+     * max=100
+     * )
      * @ORM\Column(name="name", type="string", length=60, unique=true)
      */
     private $name;
