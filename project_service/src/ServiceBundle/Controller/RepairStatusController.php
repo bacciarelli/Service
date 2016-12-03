@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  *
  * @Route("repair_status")
  */
-class Repair_statusController extends Controller
+class RepairStatusController extends Controller
 {
     /**
      * Lists all repair_status entities.

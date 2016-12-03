@@ -62,7 +62,11 @@ class Machine
 
     /**
      * @var string
-     *
+     * 
+     * @Assert\Length(
+     * min=2,
+     * max=45
+     * )
      * @ORM\Column(name="complaint_number", type="string", length=45, unique=true)
      */
     private $complaintNumber;
@@ -70,10 +74,7 @@ class Machine
     /**
      * @var \DateTime
      *
-     * @Assert\Length(
-     * min=2,
-     * max=45
-     * )
+     * 
      * @ORM\Column(name="insertion_date", type="datetime")
      */
     private $insertionDate;

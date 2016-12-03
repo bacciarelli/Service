@@ -17,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("name")
  */
 class Repair_status {
+    
+    //TODO rename Repair_status to RepairStatus
 
     public function __toString() {
         return $this->name;

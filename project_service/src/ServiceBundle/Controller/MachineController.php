@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-//@Route("machine")
 
 /**
  * 
@@ -36,10 +35,10 @@ class MachineController extends Controller {
     /**
      * Lists machine entities with sended status.
      *
-     * @Route("/sended", name="machine_index_sended")
+     * @Route("/sent", name="machine_index_sended")
      * @Method("GET")
      */
-    public function indexSendedAction() {
+    public function indexSentAction() {
         $em = $this->getDoctrine()->getManager();
 
         $machines = $em->getRepository('ServiceBundle:Machine')->findByrepairStatus(3);
@@ -115,7 +114,7 @@ class MachineController extends Controller {
     /**
      * Finds and displays a machine entity.
      *
-     * @Route("/{id}", name="machine_show")
+     * @Route("/{id}", name="machine_show",  requirements={"id": "\d+"})
      * @Method("GET")
      */
     public function showAction(Machine $machine) {
