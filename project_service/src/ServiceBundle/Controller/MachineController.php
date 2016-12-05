@@ -35,7 +35,7 @@ class MachineController extends Controller {
     /**
      * Lists machine entities with sended status.
      *
-     * @Route("/sent", name="machine_index_sended")
+     * @Route("/sent", name="machine_index_sent")
      * @Method("GET")
      */
     public function indexSentAction() {
@@ -43,7 +43,7 @@ class MachineController extends Controller {
 
         $machines = $em->getRepository('ServiceBundle:Machine')->findByrepairStatus(3);
 
-        return $this->render('machine/index_sended.html.twig', array(
+        return $this->render('machine/index_sent.html.twig', array(
                     'machines' => $machines,
         ));
     }
