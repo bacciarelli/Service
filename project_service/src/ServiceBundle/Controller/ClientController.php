@@ -47,6 +47,9 @@ class ClientController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($client);
             $em->flush($client);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "New client: \"" . $client->getName() . "\" has been added");
 
             return $this->redirectToRoute('client_show', array('id' => $client->getId()));
         }
@@ -87,6 +90,9 @@ class ClientController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Client: \"" . $client->getName() . "\" has been edited");
 
             return $this->redirectToRoute('client_edit', array('id' => $client->getId()));
         }
@@ -113,6 +119,9 @@ class ClientController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($client);
             $em->flush($client);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Client: \"" . $client->getName() . "\" has been deleted");
         }
 
         return $this->redirectToRoute('client_index');

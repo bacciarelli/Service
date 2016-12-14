@@ -101,6 +101,9 @@ class MachineController extends Controller {
             }
             $em->persist($machine);
             $em->flush($machine);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "New machine: " . $machine->getComplaintNumber() . " has been added");
 
             return $this->redirectToRoute('machine_show', array('id' => $machine->getId()));
         }
@@ -139,6 +142,9 @@ class MachineController extends Controller {
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Machine: " . $machine->getComplaintNumber() . " has been edited");
 
             return $this->redirectToRoute('machine_edit', array('id' => $machine->getId()));
         }
@@ -172,16 +178,6 @@ class MachineController extends Controller {
 
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('machine_servicedoc', array ('id' => $machine->getId()));
-            //generate PDF
-//            $html = $this->renderView('service_document/show.html.twig', array(
-//            'machine' => $machine,
-//        ));
-//        $mpdfService = $this->get('tfox.mpdfport');
-//        $mpdfService->setAddDefaultConstructorArgs(false);
-//        return $response = $mpdfService->generatePdfResponse($html);
-//        return $this->render('service_document/show.html.twig', array(
-//            'machine' => $machine,
-//        ));
         }
 
         return $this->render('machine/repair.html.twig', array(
@@ -204,6 +200,10 @@ class MachineController extends Controller {
         $machine->setRepairStatus($sendedStatus);
 
         $this->getDoctrine()->getManager()->flush();
+        
+        $request->getSession()->getFlashbag()
+                    ->add('success', "Machine: " . $machine->getComplaintNumber() . " repair status has been set to \"sended\"");
+        
         return $this->redirectToRoute('machine_index_repaired');
     }
 
@@ -236,6 +236,9 @@ class MachineController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->remove($machine);
             $em->flush($machine);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Machine: " . $machine->getComplaintNumber() . " has been deleted");
         }
 
         return $this->redirectToRoute('machine_index');

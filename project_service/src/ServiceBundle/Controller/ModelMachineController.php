@@ -48,6 +48,9 @@ class ModelMachineController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($modelMachine);
             $em->flush($modelMachine);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "New model: \"" . $modelMachine->getName() . "\" has been added");
 
             return $this->redirectToRoute('modelmachine_show', array('id' => $modelMachine->getId()));
         }
@@ -88,6 +91,9 @@ class ModelMachineController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Model: \"" . $modelMachine->getName() . "\" has been edited");
 
             return $this->redirectToRoute('modelmachine_edit', array('id' => $modelMachine->getId()));
         }
@@ -114,6 +120,9 @@ class ModelMachineController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($modelMachine);
             $em->flush($modelMachine);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Model: \"" . $modelMachine->getName() . "\" has been deleted");
         }
 
         return $this->redirectToRoute('modelmachine_index');

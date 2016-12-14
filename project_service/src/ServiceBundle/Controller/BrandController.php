@@ -5,7 +5,8 @@ namespace ServiceBundle\Controller;
 use ServiceBundle\Entity\Brand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Brand controller.
@@ -47,7 +48,9 @@ class BrandController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($brand);
             $em->flush($brand);
-
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "New brand: \"" . $brand->getName() . "\" has been added");
             return $this->redirectToRoute('brand_show', array('id' => $brand->getId()));
         }
 
@@ -87,6 +90,9 @@ class BrandController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Brand: \"" . $brand->getName() . "\" has been edited");
 
             return $this->redirectToRoute('brand_edit', array('id' => $brand->getId()));
         }
@@ -113,6 +119,9 @@ class BrandController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($brand);
             $em->flush($brand);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Brand: \"" . $brand->getName() . "\" has been deleted");
         }
 
         return $this->redirectToRoute('brand_index');

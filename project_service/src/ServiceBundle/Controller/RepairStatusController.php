@@ -47,6 +47,9 @@ class RepairStatusController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($repair_status);
             $em->flush($repair_status);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "New repair status: \"" . $repair_status->getName() . "\" has been added");
 
             return $this->redirectToRoute('repair_status_show', array('id' => $repair_status->getId()));
         }
@@ -87,6 +90,9 @@ class RepairStatusController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Repair status: \"" . $repair_status->getName() . "\" has been edited");
 
             return $this->redirectToRoute('repair_status_edit', array('id' => $repair_status->getId()));
         }
@@ -113,6 +119,9 @@ class RepairStatusController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($repair_status);
             $em->flush($repair_status);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Repair status: \"" . $repair_status->getName() . "\" has been deleted");
         }
 
         return $this->redirectToRoute('repair_status_index');

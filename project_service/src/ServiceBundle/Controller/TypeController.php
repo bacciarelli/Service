@@ -47,6 +47,9 @@ class TypeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($type);
             $em->flush($type);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "New type: \"" . $type->getName() . "\" has been added");
 
             return $this->redirectToRoute('type_show', array('id' => $type->getId()));
         }
@@ -87,6 +90,9 @@ class TypeController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Type: \"" . $type->getName() . "\" has been edited");
 
             return $this->redirectToRoute('type_edit', array('id' => $type->getId()));
         }
@@ -113,6 +119,9 @@ class TypeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($type);
             $em->flush($type);
+            
+            $request->getSession()->getFlashbag()
+                    ->add('success', "Type: \"" . $type->getName() . "\" has been deleted");
         }
 
         return $this->redirectToRoute('type_index');
