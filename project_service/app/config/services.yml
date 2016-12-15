@@ -7,3 +7,7 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    service.brand_listener:
+        class: ServiceBundle\EventListener\BrandListener
+        tags:
+            - { name: kernel.event_listener, event: brand.added }
