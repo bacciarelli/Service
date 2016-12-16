@@ -2,12 +2,14 @@
 
 namespace ServiceBundle\Controller;
 
+use ServiceBundle\Event\BrandEvent;
 use ServiceBundle\Entity\Brand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Brand controller.
@@ -50,8 +52,12 @@ class BrandController extends Controller
             $em->persist($brand);
             $em->flush($brand);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "New brand: \"" . $brand->getName() . "\" has been added");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new BrandEvent($brand, $request);
+            $dispatcher->dispatch('brand.added', $event);
+            
+//            $request->getSession()->getFlashbag()
+//                    ->add('success', "New brand: \"" . $brand->getName() . "\" has been added");
             return $this->redirectToRoute('brand_show', array('id' => $brand->getId()));
         }
 

@@ -1,9 +1,8 @@
 <?php
-namespace ServiceBundleBundle\EventListener;
+namespace ServiceBundle\EventListener;
 
-use ServiceBundleBundle\Event\BrandEvent;
+use ServiceBundle\Event\BrandEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-
 
 
 /**
@@ -15,6 +14,10 @@ class BrandListener {
     
     
     public function onBrandAdded(BrandEvent $event) {
+        $brand = $event->getBrand();
+        $request = $event->getRequest();
         
+        $request->getSession()->getFlashbag()
+                    ->add('success', "New brand: \"" . $brand->getName() . "\" has been added");
     }
 }
