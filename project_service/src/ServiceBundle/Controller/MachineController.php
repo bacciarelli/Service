@@ -2,6 +2,8 @@
 
 namespace ServiceBundle\Controller;
 
+use ServiceBundle\ServiceEvents;
+use ServiceBundle\Event\FlashEvent;
 use ServiceBundle\Entity\Machine;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -101,9 +103,10 @@ class MachineController extends Controller {
             }
             $em->persist($machine);
             $em->flush($machine);
-            
-            $request->getSession()->getFlashbag()
-                    ->add('success', "New machine: " . $machine->getComplaintNumber() . " has been added");
+
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($machine, $request);
+            $dispatcher->dispatch(ServiceEvents::MACHINE_ADDED, $event);
 
             return $this->redirectToRoute('machine_show', array('id' => $machine->getId()));
         }
@@ -142,9 +145,10 @@ class MachineController extends Controller {
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Machine: " . $machine->getComplaintNumber() . " has been edited");
+
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($machine, $request);
+            $dispatcher->dispatch(ServiceEvents::MACHINE_EDITED, $event);
 
             return $this->redirectToRoute('machine_edit', array('id' => $machine->getId()));
         }
@@ -177,7 +181,7 @@ class MachineController extends Controller {
             $machine->setRepairStatus($status);
 
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('machine_servicedoc', array ('id' => $machine->getId()));
+            return $this->redirectToRoute('machine_servicedoc', array('id' => $machine->getId()));
         }
 
         return $this->render('machine/repair.html.twig', array(
@@ -185,7 +189,6 @@ class MachineController extends Controller {
                     'repair_form' => $repairForm->createView(),
         ));
     }
-    
 
     /**
      * Seting up 'sended' status to existing machine entity.
@@ -200,10 +203,11 @@ class MachineController extends Controller {
         $machine->setRepairStatus($sendedStatus);
 
         $this->getDoctrine()->getManager()->flush();
-        
-        $request->getSession()->getFlashbag()
-                    ->add('success', "Machine: " . $machine->getComplaintNumber() . " repair status has been set to \"sended\"");
-        
+
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new FlashEvent($machine, $request);
+        $dispatcher->dispatch(ServiceEvents::MACHINE_SEND, $event);
+
         return $this->redirectToRoute('machine_index_repaired');
     }
 
@@ -236,9 +240,10 @@ class MachineController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->remove($machine);
             $em->flush($machine);
-            
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Machine: " . $machine->getComplaintNumber() . " has been deleted");
+
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($machine, $request);
+            $dispatcher->dispatch(ServiceEvents::MACHINE_DELETED, $event);
         }
 
         return $this->redirectToRoute('machine_index');

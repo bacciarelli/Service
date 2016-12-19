@@ -3,7 +3,6 @@
 namespace ServiceBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use ServiceBundle\Entity\Brand;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -11,24 +10,24 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author michal
  */
-class BrandEvent extends Event {
+class FlashEvent extends Event {
 
-    const NAME = 'brand.added';
+    //const NAME = 'flash.add';
 
-    protected $brand;
+    protected $entity;
     protected $request;
 
-    public function __construct(Brand $brand, Request $request) {
-        $this->brand = $brand;
+    public function __construct($entity, Request $request) {
+        $this->entity = $entity;
         $this->request = $request;
     }
 
-    public function getBrand() {
-        return $this->brand;
+    public function getEntity() {
+        return $this->entity;
     }
 
     public function getRequest() {
         return $this->request;
     }
-
+    
 }

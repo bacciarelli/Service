@@ -2,6 +2,8 @@
 
 namespace ServiceBundle\Controller;
 
+use ServiceBundle\ServiceEvents;
+use ServiceBundle\Event\FlashEvent;
 use ServiceBundle\Entity\ModelMachine;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -49,8 +51,9 @@ class ModelMachineController extends Controller
             $em->persist($modelMachine);
             $em->flush($modelMachine);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "New model: \"" . $modelMachine->getName() . "\" has been added");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($modelMachine, $request);
+            $dispatcher->dispatch(ServiceEvents::MODEL_ADDED, $event);
 
             return $this->redirectToRoute('modelmachine_show', array('id' => $modelMachine->getId()));
         }
@@ -92,8 +95,9 @@ class ModelMachineController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Model: \"" . $modelMachine->getName() . "\" has been edited");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($modelMachine, $request);
+            $dispatcher->dispatch(ServiceEvents::MODEL_EDITED, $event);
 
             return $this->redirectToRoute('modelmachine_edit', array('id' => $modelMachine->getId()));
         }
@@ -121,8 +125,9 @@ class ModelMachineController extends Controller
             $em->remove($modelMachine);
             $em->flush($modelMachine);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Model: \"" . $modelMachine->getName() . "\" has been deleted");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($modelMachine, $request);
+            $dispatcher->dispatch(ServiceEvents::MODEL_DELETED, $event);
         }
 
         return $this->redirectToRoute('modelmachine_index');

@@ -2,10 +2,13 @@
 
 namespace ServiceBundle\Controller;
 
+use ServiceBundle\ServiceEvents;
+use ServiceBundle\Event\FlashEvent;
 use ServiceBundle\Entity\Repair_status;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Repair_status controller.
@@ -24,10 +27,10 @@ class RepairStatusController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repair_statuses = $em->getRepository('ServiceBundle:Repair_status')->findAll();
+        $repairStatuses = $em->getRepository('ServiceBundle:Repair_status')->findAll();
 
         return $this->render('repair_status/index.html.twig', array(
-            'repair_statuses' => $repair_statuses,
+            'repair_statuses' => $repairStatuses,
         ));
     }
 
@@ -39,23 +42,24 @@ class RepairStatusController extends Controller
      */
     public function newAction(Request $request)
     {
-        $repair_status = new Repair_status();
-        $form = $this->createForm('ServiceBundle\Form\Repair_statusType', $repair_status);
+        $repairStatus = new Repair_status();
+        $form = $this->createForm('ServiceBundle\Form\Repair_statusType', $repairStatus);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($repair_status);
-            $em->flush($repair_status);
+            $em->persist($repairStatus);
+            $em->flush($repairStatus);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "New repair status: \"" . $repair_status->getName() . "\" has been added");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($repairStatus, $request);
+            $dispatcher->dispatch(ServiceEvents::REPAIR_STATUS_ADDED, $event);
 
-            return $this->redirectToRoute('repair_status_show', array('id' => $repair_status->getId()));
+            return $this->redirectToRoute('repair_status_show', array('id' => $repairStatus->getId()));
         }
 
         return $this->render('repair_status/new.html.twig', array(
-            'repair_status' => $repair_status,
+            'repair_status' => $repairStatus,
             'form' => $form->createView(),
         ));
     }
@@ -66,12 +70,12 @@ class RepairStatusController extends Controller
      * @Route("/{id}", name="repair_status_show")
      * @Method("GET")
      */
-    public function showAction(Repair_status $repair_status)
+    public function showAction(Repair_status $repairStatus)
     {
-        $deleteForm = $this->createDeleteForm($repair_status);
+        $deleteForm = $this->createDeleteForm($repairStatus);
 
         return $this->render('repair_status/show.html.twig', array(
-            'repair_status' => $repair_status,
+            'repair_status' => $repairStatus,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -82,23 +86,24 @@ class RepairStatusController extends Controller
      * @Route("/{id}/edit", name="repair_status_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Repair_status $repair_status)
+    public function editAction(Request $request, Repair_status $repairStatus)
     {
-        $deleteForm = $this->createDeleteForm($repair_status);
-        $editForm = $this->createForm('ServiceBundle\Form\Repair_statusType', $repair_status);
+        $deleteForm = $this->createDeleteForm($repairStatus);
+        $editForm = $this->createForm('ServiceBundle\Form\Repair_statusType', $repairStatus);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Repair status: \"" . $repair_status->getName() . "\" has been edited");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($repairStatus, $request);
+            $dispatcher->dispatch(ServiceEvents::REPAIR_STATUS_EDITED, $event);
 
-            return $this->redirectToRoute('repair_status_edit', array('id' => $repair_status->getId()));
+            return $this->redirectToRoute('repair_status_edit', array('id' => $repairStatus->getId()));
         }
 
         return $this->render('repair_status/edit.html.twig', array(
-            'repair_status' => $repair_status,
+            'repair_status' => $repairStatus,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -110,18 +115,19 @@ class RepairStatusController extends Controller
      * @Route("/{id}", name="repair_status_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Repair_status $repair_status)
+    public function deleteAction(Request $request, Repair_status $repairStatus)
     {
-        $form = $this->createDeleteForm($repair_status);
+        $form = $this->createDeleteForm($repairStatus);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($repair_status);
-            $em->flush($repair_status);
+            $em->remove($repairStatus);
+            $em->flush($repairStatus);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Repair status: \"" . $repair_status->getName() . "\" has been deleted");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($repairStatus, $request);
+            $dispatcher->dispatch(ServiceEvents::REPAIR_STATUS_DELETED, $event);
         }
 
         return $this->redirectToRoute('repair_status_index');
@@ -130,14 +136,14 @@ class RepairStatusController extends Controller
     /**
      * Creates a form to delete a repair_status entity.
      *
-     * @param Repair_status $repair_status The repair_status entity
+     * @param Repair_status $repairStatus The repair_status entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Repair_status $repair_status)
+    private function createDeleteForm(Repair_status $repairStatus)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('repair_status_delete', array('id' => $repair_status->getId())))
+            ->setAction($this->generateUrl('repair_status_delete', array('id' => $repairStatus->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

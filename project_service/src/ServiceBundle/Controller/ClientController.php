@@ -2,10 +2,13 @@
 
 namespace ServiceBundle\Controller;
 
+use ServiceBundle\ServiceEvents;
+use ServiceBundle\Event\FlashEvent;
 use ServiceBundle\Entity\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Client controller.
@@ -48,8 +51,9 @@ class ClientController extends Controller
             $em->persist($client);
             $em->flush($client);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "New client: \"" . $client->getName() . "\" has been added");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($client, $request);
+            $dispatcher->dispatch(ServiceEvents::CLIENT_ADDED, $event);
 
             return $this->redirectToRoute('client_show', array('id' => $client->getId()));
         }
@@ -91,8 +95,9 @@ class ClientController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Client: \"" . $client->getName() . "\" has been edited");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($client, $request);
+            $dispatcher->dispatch(ServiceEvents::CLIENT_EDITED, $event);
 
             return $this->redirectToRoute('client_edit', array('id' => $client->getId()));
         }
@@ -120,8 +125,9 @@ class ClientController extends Controller
             $em->remove($client);
             $em->flush($client);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Client: \"" . $client->getName() . "\" has been deleted");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($client, $request);
+            $dispatcher->dispatch(ServiceEvents::CLIENT_DELETED, $event);
         }
 
         return $this->redirectToRoute('client_index');

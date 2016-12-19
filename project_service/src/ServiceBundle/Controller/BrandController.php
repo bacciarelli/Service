@@ -2,14 +2,13 @@
 
 namespace ServiceBundle\Controller;
 
-use ServiceBundle\Event\BrandEvent;
+use ServiceBundle\Event\FlashEvent;
 use ServiceBundle\Entity\Brand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use ServiceBundle\ServiceEvents;
 
 /**
  * Brand controller.
@@ -53,11 +52,9 @@ class BrandController extends Controller
             $em->flush($brand);
             
             $dispatcher = $this->get('event_dispatcher');
-            $event = new BrandEvent($brand, $request);
-            $dispatcher->dispatch('brand.added', $event);
+            $event = new FlashEvent($brand, $request);
+            $dispatcher->dispatch(ServiceEvents::BRAND_ADDED, $event);
             
-//            $request->getSession()->getFlashbag()
-//                    ->add('success', "New brand: \"" . $brand->getName() . "\" has been added");
             return $this->redirectToRoute('brand_show', array('id' => $brand->getId()));
         }
 
@@ -98,8 +95,9 @@ class BrandController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Brand: \"" . $brand->getName() . "\" has been edited");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($brand, $request);
+            $dispatcher->dispatch(ServiceEvents::BRAND_EDITED, $event);
 
             return $this->redirectToRoute('brand_edit', array('id' => $brand->getId()));
         }
@@ -127,8 +125,9 @@ class BrandController extends Controller
             $em->remove($brand);
             $em->flush($brand);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Brand: \"" . $brand->getName() . "\" has been deleted");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($brand, $request);
+            $dispatcher->dispatch(ServiceEvents::BRAND_DELETED, $event);
         }
 
         return $this->redirectToRoute('brand_index');

@@ -2,6 +2,8 @@
 
 namespace ServiceBundle\Controller;
 
+use ServiceBundle\ServiceEvents;
+use ServiceBundle\Event\FlashEvent;
 use ServiceBundle\Entity\Type;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -48,8 +50,9 @@ class TypeController extends Controller
             $em->persist($type);
             $em->flush($type);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "New type: \"" . $type->getName() . "\" has been added");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($type, $request);
+            $dispatcher->dispatch(ServiceEvents::TYPE_ADDED, $event);
 
             return $this->redirectToRoute('type_show', array('id' => $type->getId()));
         }
@@ -91,8 +94,9 @@ class TypeController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Type: \"" . $type->getName() . "\" has been edited");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($type, $request);
+            $dispatcher->dispatch(ServiceEvents::TYPE_EDITED, $event);
 
             return $this->redirectToRoute('type_edit', array('id' => $type->getId()));
         }
@@ -120,8 +124,9 @@ class TypeController extends Controller
             $em->remove($type);
             $em->flush($type);
             
-            $request->getSession()->getFlashbag()
-                    ->add('success', "Type: \"" . $type->getName() . "\" has been deleted");
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new FlashEvent($type, $request);
+            $dispatcher->dispatch(ServiceEvents::TYPE_DELETED, $event);
         }
 
         return $this->redirectToRoute('type_index');
