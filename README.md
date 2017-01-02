@@ -13,7 +13,7 @@ Current features:
 
  - Generating a service protocol in PDF format.
  
-Przewidywane funkcjonalności:
+Planned functionality:
 
 - stock module: register of parts used for repair.
 - invoices module: generating invoices.
@@ -34,7 +34,7 @@ Aktualne funkcjonalności:
 
 - Generowanie serwisowego dokumentu wyjścia maszyny w formacie PDF.
 
-Przewidywane funkcjonalności:
+Przyszłe funkcjonalności:
 
 - moduł magazynowy: ewidencja części używanych do naprawy.
 - moduł fakturowania: generowanie faktur.
