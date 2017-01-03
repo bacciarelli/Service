@@ -4,6 +4,7 @@ namespace ServiceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ServiceBundle\Entity\Machine;
+use ServiceBundle\Entity\Part;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -25,6 +26,11 @@ class Type {
      * @ORM\OneToMany(targetEntity="Machine", mappedBy="type")
      */
     private $machines;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Part", mappedBy="type")
+     */
+    private $parts;
 
     public function __construct() {
         $this->machines = new ArrayCollection();
@@ -110,4 +116,37 @@ class Type {
         return $this->machines;
     }
 
+
+    /**
+     * Add parts
+     *
+     * @param \ServiceBundle\Entity\Part $parts
+     * @return Type
+     */
+    public function addPart(\ServiceBundle\Entity\Part $parts)
+    {
+        $this->parts[] = $parts;
+
+        return $this;
+    }
+
+    /**
+     * Remove parts
+     *
+     * @param \ServiceBundle\Entity\Part $parts
+     */
+    public function removePart(\ServiceBundle\Entity\Part $parts)
+    {
+        $this->parts->removeElement($parts);
+    }
+
+    /**
+     * Get parts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getParts()
+    {
+        return $this->parts;
+    }
 }
